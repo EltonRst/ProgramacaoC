@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 20
+#define N 10
 
 void exercicio1(){
 	
@@ -20,10 +20,29 @@ void exercicio1(){
 		}
 	}
 	
-	Ax = 3;
-	Ay = 3;
-	Bx = 6;
-	By = 6;
+	// Situação 1
+	Ax = 1;
+	Ay = 1;
+	Bx = 8;
+	By = 8;
+	
+	// Situação 2
+	Ax = 1;
+	Ay = 8;
+	Bx = 8;
+	By = 1;
+	
+	// Situação 3
+	Ax = 8;
+	Ay = 8;
+	Bx = 1;
+	By = 1;
+	
+	// Situação 4
+	Ax = 8;
+	Ay = 1;
+	Bx = 1;
+	By = 8;
 	
 	// Calcular distância e incrementos
 	
@@ -34,11 +53,22 @@ void exercicio1(){
 	x = Ax;
 	y = Ay;
 	
+	// No sentido negativo
+	if(Bx < Ax)
+		iX *= -1;
+		
+	if(By < Ay)
+		iY *= -1;
+	
 	for(k=0;k<d;k++)
 	{
 		M[(int)x][(int)y] = '*';
+		//
 		x += iX;
 		y += iY;
+		//
+		printf("X:%f Y:%f\n",x,y);
+	
 	}
 	
 	M[(int)Ax][(int)Ay] = 'A';

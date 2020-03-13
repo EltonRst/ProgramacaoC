@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 20
+#define N 10
 
 void MostraM(char M[N][N])
 {
