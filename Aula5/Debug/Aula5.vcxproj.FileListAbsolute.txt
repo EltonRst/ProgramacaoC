@@ -1,0 +1,2 @@
+C:\Users\elton\source\repos\ProgramacaoC\Aula5\Debug\Aula5.exe
+C:\Users\elton\source\repos\ProgramacaoC\Aula5\Debug\Aula5.pdb

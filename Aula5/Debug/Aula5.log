@@ -1,0 +1,12 @@
+﻿  Aula5.c
+C:\Users\elton\source\repos\ProgramacaoC\Aula5\Aula5.c(5,12): warning C4013: 'exercicio1' indefinido; assumindo extern retornando int
+  exercicio1.c
+C:\Users\elton\source\repos\ProgramacaoC\Aula5\exercicio1.c(49,15): warning C4244: 'função': conversão de 'float' para 'int', possível perda de dados
+C:\Users\elton\source\repos\ProgramacaoC\Aula5\exercicio1.c(49,28): warning C4244: 'função': conversão de 'float' para 'int', possível perda de dados
+C:\Users\elton\source\repos\ProgramacaoC\Aula5\exercicio1.c(49,29): warning C4244: '=': conversão de 'int' para 'float', possível perda de dados
+C:\Users\elton\source\repos\ProgramacaoC\Aula5\exercicio1.c(50,16): warning C4244: 'função': conversão de 'float' para 'int', possível perda de dados
+C:\Users\elton\source\repos\ProgramacaoC\Aula5\exercicio1.c(51,16): warning C4244: 'função': conversão de 'float' para 'int', possível perda de dados
+C:\Users\elton\source\repos\ProgramacaoC\Aula5\exercicio1.c(77,9): warning C4013: 'MostraM' indefinido; assumindo extern retornando int
+  mostramatriz.c
+  Gerando Código...
+  Aula5.vcxproj -> C:\Users\elton\source\repos\ProgramacaoC\Aula5\Debug\Aula5.exe
