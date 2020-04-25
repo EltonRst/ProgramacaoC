@@ -1,3 +1,3 @@
 ﻿  Aula7.c
-C:\Users\elton\source\repos\ProgramacaoC\Aula7\Aula7.c(89,15): warning C4013: 'time' indefinido; assumindo extern retornando int
+C:\Users\elton\source\repos\ProgramacaoC\Aula7\Aula7.c(93,12): warning C4013: 'time' indefinido; assumindo extern retornando int
   Aula7.vcxproj -> C:\Users\elton\source\repos\ProgramacaoC\Aula7\Debug\Aula7.exe
