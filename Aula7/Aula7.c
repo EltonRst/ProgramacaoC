@@ -16,6 +16,7 @@
 #define _ABERTA_    0
 #define _FECHADA_  -1
 #define _VAZIA_    -2
+#define _BANDEIRA_ -5
 
 int AbreArea(int Tabuleiro[_Height_][_Width_], int TabVisual[_Height_][_Width_], int X /*coluna */, int Y /* linha */, bool celulaAntVazia)
 {
@@ -42,16 +43,16 @@ int AbreArea(int Tabuleiro[_Height_][_Width_], int TabVisual[_Height_][_Width_],
 		TabVisual[Y][X] = _ABERTA_;
 		cont++;
 	}
-	else if (TabVisual[Y][X] == _FECHADA_ && Tabuleiro[Y][X] > 0 && Tabuleiro[Y][X] <= 8) {
+	else if (TabVisual[Y][X] == _FECHADA_ && Tabuleiro[Y][X] > 0 && Tabuleiro[Y][X] <= 8 && !celulaAntVazia) {
 		TabVisual[Y][X] = _ABERTA_;
 		cont++;
 	}
-	else {
+	else if (TabVisual[Y][X] == _FECHADA_ && Tabuleiro[Y][X] == _BOMBA_) {
 		TabVisual[Y][X] = _ABERTA_;
+		cont = _BOMBA_;
 		// BOMBA, finaliza o jogo
 	}
 	return (cont);
-
 }
 
 void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
@@ -77,7 +78,7 @@ void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
 			{
 				switch (Tabuleiro[L][C])
 				{
-				case -8: printf("  %c  ", 225); break;
+				case _BOMBA_: printf("  %c  ", 225); break;
 				case 1:
 				case 2:
 				case 3:
@@ -86,12 +87,18 @@ void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
 				case 6:
 				case 7:
 				case 8:  printf("  %d  ", Tabuleiro[L][C]); break;
+					//case _BANDEIRA_: printf("  %d  ", 15); break;
 				default: printf("  .  "); break;
 				}
 			}
 			else
 			{
-				printf("  %c  ", 254);
+				if (Tabuleiro[L][C] == _BANDEIRA_) {
+					printf("  %c  ", 4);
+				}
+				else {
+					printf("  %c  ", 254);
+				}
 			}
 		}
 		printf("%c\n", 186);
@@ -175,6 +182,7 @@ int main()
 
 	int Tabuleiro[_Height_][_Width_];
 	int TabVisual[_Height_][_Width_];
+	int TabAuxiliar[_Height_][_Width_];
 	// _FECHADA_ : -1 : celula fechada
 	// _ABERTA_  :  0 : celula aberta
 
@@ -195,25 +203,60 @@ int main()
 
 	int pontos = 0;
 
-	int celulas = 1;
+	printf("Campo Minado:\n");
+	MostraTabuleiro(Tabuleiro, TabVisual);
 
-	while (celulas != 0) {
+	while (true) {
+
+		int op = 0;
+
+		printf("Para jogar, digite:\n");
+		printf("1 - Jogada normal, 2 - Inserir/Remover Bandeira\n");
+		scanf_s("%d", &op);
+		// Valida a opção de jogada digitada pelo usuário
+		if (op < 1 || op >2) {
+			printf("Opcao invalida !\n");
+			continue;
+		}
 
 		int l = 0, c = 0;
 
 		printf("Digite a linha desejada:\n");
-		scanf("%d", &l);
+		scanf_s("%d", &l);
 
 		printf("Digite a coluna desejada:\n");
-		scanf("%d", &c);
+		scanf_s("%d", &c);
 
 		if (l < 1 || c < 1 || l > _Height_ || c > _Width_) {
-			printf("Jogada em linha ou coluna inválidas ! L(%d) C(%d)\n", l, c);
+			printf("Jogada em linha ou coluna invalidas ! L(%d) C(%d)\n", l, c);
 		}
 		else {
-			celulas = AbreArea(Tabuleiro, TabVisual, c - 1, l - 1, false);
-			pontos += celulas;
+			if (op == 1) {
+				int celulas = AbreArea(Tabuleiro, TabVisual, c - 1, l - 1, false);
+				if (celulas == _BOMBA_)
+				{
+					printf("Campo Minado:\n");
+					MostraTabuleiro(Tabuleiro, TabVisual);
+					printf("Final de jogo ! Voce abriu uma bomba, sua pontuacao: 0\n");
+					break;
+				}
+				pontos += celulas;
+			}
+			else {
+				if (Tabuleiro[l - 1][c - 1] != _BANDEIRA_) {
+					TabAuxiliar[l - 1][c - 1] = Tabuleiro[l - 1][c - 1];
+					Tabuleiro[l - 1][c - 1] = _BANDEIRA_;
+					printf("Bandeira adicionada !\n");
+				}
+				else {
+					Tabuleiro[l - 1][c - 1] = TabAuxiliar[l - 1][c - 1];
+					TabAuxiliar[l - 1][c - 1] = _BANDEIRA_;
+					printf("Bandeira removida !\n");
+				}
+			}
+			printf("Campo Minado:\n");
 			MostraTabuleiro(Tabuleiro, TabVisual);
+			printf("Pontuacao atual: %d\n", pontos);
 		}
 	}
 
@@ -221,6 +264,6 @@ int main()
 	// Implementar abertura de célula de contagem, que não é bomba.
 	// Implementar abertura de célula que é bomba -> final de jogo
 
-	printf("\nFinal de jogo total de pontos: %d\n", pontos);
+	//printf("\nFinal de jogo, total de pontos: %d\n", pontos);
 
 }
