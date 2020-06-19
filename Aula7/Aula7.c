@@ -87,14 +87,14 @@ void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
 				case 6:
 				case 7:
 				case 8:  printf("  %d  ", Tabuleiro[L][C]); break;
-					//case _BANDEIRA_: printf("  %d  ", 15); break;
+				//case _BANDEIRA_: printf("  %d  ", 15); break;
 				default: printf("  .  "); break;
 				}
 			}
 			else
 			{
 				if (Tabuleiro[L][C] == _BANDEIRA_) {
-					printf("  %c  ", 4);
+					printf("  %c  ", 63);
 				}
 				else {
 					printf("  %c  ", 254);
@@ -177,6 +177,19 @@ void MontaTabuleiro(int Tabuleiro[_Height_][_Width_])
 
 }
 
+void Bandeira(int Tabuleiro[_Height_][_Width_], int TabAuxiliar[_Height_][_Width_], int l, int c) {
+	if (Tabuleiro[l][c] != _BANDEIRA_) {
+		TabAuxiliar[l][c] = Tabuleiro[l][c];
+		Tabuleiro[l][c] = _BANDEIRA_;
+		printf("Bandeira adicionada !\n");
+	}
+	else {
+		Tabuleiro[l][c] = TabAuxiliar[l][c];
+		TabAuxiliar[l][c] = _BANDEIRA_;
+		printf("Bandeira removida !\n");
+	}
+}
+
 int main()
 {
 
@@ -243,16 +256,7 @@ int main()
 				pontos += celulas;
 			}
 			else {
-				if (Tabuleiro[l - 1][c - 1] != _BANDEIRA_) {
-					TabAuxiliar[l - 1][c - 1] = Tabuleiro[l - 1][c - 1];
-					Tabuleiro[l - 1][c - 1] = _BANDEIRA_;
-					printf("Bandeira adicionada !\n");
-				}
-				else {
-					Tabuleiro[l - 1][c - 1] = TabAuxiliar[l - 1][c - 1];
-					TabAuxiliar[l - 1][c - 1] = _BANDEIRA_;
-					printf("Bandeira removida !\n");
-				}
+				Bandeira(Tabuleiro, TabAuxiliar, l - 1, c - 1);
 			}
 			printf("Campo Minado:\n");
 			MostraTabuleiro(Tabuleiro, TabVisual);
