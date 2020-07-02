@@ -11,7 +11,7 @@
 
 #define _QtBombas_  8
 #define _Height_   10 
-#define _Width_    10
+#define _Width_    5
 #define _BOMBA_    -8
 #define _ABERTA_    0
 #define _FECHADA_  -1
@@ -60,6 +60,20 @@ void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
 {
 	int i, L, C;
 
+
+	// numeração das colunas
+	int cl = 1;
+	printf(" ");
+	for (i = 0; i < _Width_; i++)
+	{
+		if (cl < 10)
+			printf("  C%d ", cl);
+		else
+			printf(" C%d ", cl);
+		cl += 1;
+	}
+	printf(" \n");
+
 	// parte superior da moldura
 	printf("%c", 201);
 	for (i = 0; i < _Width_; i++)
@@ -68,6 +82,7 @@ void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
 	}
 	printf("%c\n", 187);
 
+	int ln = 1;
 	for (L = 0; L < _Height_; L++)
 	{
 		printf("%c", 186);
@@ -93,6 +108,7 @@ void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
 			}
 			else
 			{
+				// Célula tem bandeira ?
 				if (Tabuleiro[L][C] == _BANDEIRA_) {
 					printf("  %c  ", 63);
 				}
@@ -101,7 +117,8 @@ void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
 				}
 			}
 		}
-		printf("%c\n", 186);
+		printf("%c L%d\n", 186, ln); // fecha moldura com contagem das linhas
+		ln += 1;
 	}
 
 	// parte inferior da moldura
@@ -113,7 +130,6 @@ void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
 	printf("%c\n", 188);
 
 }
-
 
 void MontaTabuleiro(int Tabuleiro[_Height_][_Width_])
 {
@@ -207,6 +223,7 @@ void AbreFechaTabuleiro(int TabVisual[_Height_][_Width_], int AbertaFechada) {
 	}
 }
 
+// Função para contar quantas bandeiras foram inseridas no tabuleiro
 int ContaBandeiras(int Tabuleiro[_Height_][_Width_]) {
 	int L, C, nBandeiras = 0;
 	for (L = 0; L < _Height_; L++)
@@ -217,6 +234,19 @@ int ContaBandeiras(int Tabuleiro[_Height_][_Width_]) {
 		}
 	}
 	return nBandeiras;
+}
+
+// Função para contar quantas bombas foram movidas para o tabuleiro de bandeiras auxiliar.
+int ContaBombas(int TabVisual[_Height_][_Width_]) {
+	int L, C, nBombas = 0;
+	for (L = 0; L < _Height_; L++)
+	{
+		for (C = 0; C < _Width_; C++)
+		{
+			if (TabVisual[L][C] == _BOMBA_) nBombas++; // bombas marcadas
+		}
+	}
+	return nBombas;
 }
 
 int main()
@@ -293,6 +323,8 @@ int main()
 			}
 			// Faz a contagem das bandeiras já marcadas no tabuleiro
 			int nBandeiras = ContaBandeiras(Tabuleiro);
+			// Faz a contagem das bombas já marcadas no tabuleiro auxiliar de bandeiras
+			int nBombas = ContaBombas(TabAuxBandeiras);
 			// Verifica se atingiu a pontuação máxima e marcou todas as bandeiras
 			if (pontos == ((_Width_ * _Height_) - _QtBombas_) && _QtBombas_ == nBandeiras) {
 				// Mostramos o tabuleiro e finalizamos o jogo
@@ -305,13 +337,17 @@ int main()
 				// Exibimos uma dica para o jogador
 				printf("Voce deve marcar todas as bombas com bandeiras para vencer o jogo !\n");
 			}
+			// Se marcou todas as bombas com bandeiras mas não abriu todas as células
+			else if (pontos < ((_Width_ * _Height_) - _QtBombas_) && nBombas == _QtBombas_) {
+				// Mostramos o tabuleiro e finalizamos o jogo
+				MostraTabuleiro(Tabuleiro, TabVisual);
+				printf("Final de jogo ! Voce e um genio, marcou todas as bombas e atingiu pontuacao maxima, sua pontuacao: %d\n", 100);
+				break;
+			}
 			// Mandamos mostrar o campo e pontuação atual
 			printf("Campo Minado:\n");
 			MostraTabuleiro(Tabuleiro, TabVisual);
 			printf("Pontuacao atual: %d\n", pontos);
 		}
 	}
-
-	// TODO, ao marcar todas as bandeiras corretamente nos locais das bombas, 
-	// finalizar o jogo por pontuação máxima com 100 pontos.
 }
