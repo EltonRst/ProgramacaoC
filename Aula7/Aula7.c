@@ -96,13 +96,14 @@ void MostraTabuleiro(int Tabuleiro[_Height_][_Width_],
 				case _BOMBA_: printf("  %c  ", 225); break;
 				case 1:
 				case 2:
+
 				case 3:
 				case 4:
 				case 5:
 				case 6:
 				case 7:
 				case 8:  printf("  %d  ", Tabuleiro[L][C]); break;
-				case _BANDEIRA_: printf("  %d  ", 63); break;
+				case _BANDEIRA_: printf("  %c  ", 63); break;
 				default: printf("  .  "); break;
 				}
 			}
@@ -237,13 +238,13 @@ int ContaBandeiras(int Tabuleiro[_Height_][_Width_]) {
 }
 
 // Função para contar quantas bombas foram movidas para o tabuleiro de bandeiras auxiliar.
-int ContaBombas(int TabVisual[_Height_][_Width_]) {
+int ContaBombas(int TabAuxBandeiras[_Height_][_Width_]) {
 	int L, C, nBombas = 0;
 	for (L = 0; L < _Height_; L++)
 	{
 		for (C = 0; C < _Width_; C++)
 		{
-			if (TabVisual[L][C] == _BOMBA_) nBombas++; // bombas marcadas
+			if (TabAuxBandeiras[L][C] == _BOMBA_) nBombas++; // bombas marcadas
 		}
 	}
 	return nBombas;
